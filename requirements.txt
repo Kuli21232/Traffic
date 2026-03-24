@@ -1,0 +1,5 @@
+# LocalBypass has no third-party runtime dependencies.
+# Standard library only: socket, threading, struct, select, json, logging.
+#
+# Optional for development / testing:
+pytest>=7.0
