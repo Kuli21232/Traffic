@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pyo
+strategy_cache.json
+*.egg-info/
+.venv/
+dist/
