@@ -4,33 +4,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg"
-    android:padding="16dp">
+    android:background="@color/bg">
 
-    <!-- Header -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LocalBypass"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="4dp" />
-
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="● Stopped"
-        android:textSize="13sp"
-        android:textColor="@color/stopped"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Settings card -->
-    <com.google.android.material.card.MaterialCardView
+    <!-- ── Header ──────────────────────────────────────────────────────────── -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LocalBypass"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Stopped"
+                android:textSize="12sp"
+                android:textColor="@color/stopped" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnClearLog"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="Clear log"
+            android:textSize="11sp"
+            android:paddingHorizontal="10dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/border" />
+    </LinearLayout>
+
+    <!-- ── Mode toggle ─────────────────────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:marginHorizontal="16dp"
+        android:marginBottom="10dp"
+        android:background="@drawable/mode_toggle_bg"
+        android:padding="3dp">
+
+        <Button
+            android:id="@+id/btnModeProxy"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="HTTP Proxy"
+            android:textSize="12sp"
+            android:backgroundTint="@null"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+        <Button
+            android:id="@+id/btnModeVpn"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="VPN + VLESS"
+            android:textSize="12sp"
+            android:backgroundTint="@null"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+    </LinearLayout>
+
+    <!-- ── HTTP Proxy settings card ────────────────────────────────────────── -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardProxySettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:marginHorizontal="16dp"
+        android:marginBottom="8dp"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
@@ -41,14 +98,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="14dp">
 
-            <!-- Row: Port + Strategy -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="12dp">
+                android:marginBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
@@ -70,15 +126,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:orientation="vertical">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Strategy"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="@color/text_secondary"
-                        android:layout_marginBottom="4dp" />
-
+                        android:marginBottom="2dp" />
                     <Spinner
                         android:id="@+id/spinnerStrategy"
                         android:layout_width="match_parent"
@@ -91,12 +145,10 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Row: Fragment size + delay -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -129,40 +181,135 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Proxy address hint -->
+    <!-- ── VPN / VLESS settings card ───────────────────────────────────────── -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardVpnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:marginHorizontal="16dp"
+        android:marginBottom="8dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/border">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <!-- VLESS URL row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:marginBottom="8dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:hint="vless://uuid@host:port?…"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etVlessUrl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textUri"
+                        android:fontFamily="monospace"
+                        android:textSize="11sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnParseVless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check"
+                    android:textSize="12sp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/accent" />
+            </LinearLayout>
+
+            <!-- Parsed VLESS info -->
+            <TextView
+                android:id="@+id/tvVlessInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:visibility="gone"
+                android:marginBottom="4dp" />
+
+            <!-- Help text -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Leave empty to use direct bypass (without server). With VLESS, ALL app traffic routes through your server — YouTube, Telegram, everything."
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="2dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ── Proxy address / VPN stats ───────────────────────────────────────── -->
     <TextView
         android:id="@+id/tvProxyAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:marginHorizontal="16dp"
+        android:marginBottom="8dp"
         android:text="—"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:textColor="@color/accent"
         android:fontFamily="monospace"
         android:gravity="center"
         android:alpha="0.4"
-        android:padding="8dp"
-        android:layout_marginBottom="8dp"
+        android:padding="6dp"
         android:background="@color/surface"
         android:clickable="true"
         android:focusable="true" />
 
-    <!-- Start/Stop button -->
+    <TextView
+        android:id="@+id/tvStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:marginHorizontal="16dp"
+        android:marginBottom="8dp"
+        android:text=""
+        android:textSize="12sp"
+        android:textColor="@color/accent"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:padding="6dp"
+        android:background="@color/surface"
+        android:visibility="gone" />
+
+    <!-- ── Start / Stop button ─────────────────────────────────────────────── -->
     <Button
         android:id="@+id/btnStartStop"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="10dp"
         android:text="▶  START"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textColor="@color/white"
-        android:backgroundTint="@color/running"
-        android:layout_marginBottom="12dp"
+        android:backgroundTint="@null"
+        android:background="@color/running"
         style="@style/Widget.MaterialComponents.Button" />
 
-    <!-- Log card -->
+    <!-- ── Log ─────────────────────────────────────────────────────────────── -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/log_bg"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
@@ -179,7 +326,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:fontFamily="monospace"
                 android:textColor="@color/log_text"
                 android:padding="10dp"
