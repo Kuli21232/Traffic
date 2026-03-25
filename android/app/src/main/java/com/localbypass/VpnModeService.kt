@@ -58,8 +58,9 @@ class VpnModeService : VpnService() {
 
         // Socket factory: VLESS or direct (protected from loop)
         val factory: (String, Int) -> Socket = if (cfg != null) {
-            val client = VlessClient(cfg) { sock -> protect(sock) }
-            { host, port -> client.connect(host, port) }
+            val client = VlessClient(cfg, protect = { sock -> protect(sock) })
+            val f: (String, Int) -> Socket = { host, port -> client.connect(host, port) }
+            f
         } else {
             { host, port ->
                 Socket().also { sock ->

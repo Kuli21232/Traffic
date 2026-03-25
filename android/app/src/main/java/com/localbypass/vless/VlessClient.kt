@@ -12,10 +12,10 @@ import javax.net.ssl.SSLSocketFactory
  *
  * Header layout (client → server):
  *   version(1=0x00) | uuid(16) | addons_len(1) | command(1=TCP) |
- *   dst_port(2 BE)  | addr_type(1) | addr | [data...]
+ *   dst_port(2 BE)  | addr_type(1) | addr | data...
  *
  * Response header (server → client):
- *   version(1=0x00) | addons_len(1) | [addons] | [data...]
+ *   version(1=0x00) | addons_len(1) | addons | data...
  */
 class VlessClient(
     private val cfg: VlessConfig,
