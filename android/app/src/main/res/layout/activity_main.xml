@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp"
         android:gravity="center_vertical">
@@ -45,7 +46,8 @@
             android:layout_height="32dp"
             android:text="Clear log"
             android:textSize="11sp"
-            android:paddingHorizontal="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:strokeColor="@color/border" />
     </LinearLayout>
@@ -54,9 +56,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:marginHorizontal="16dp"
-        android:marginBottom="10dp"
         android:background="@drawable/mode_toggle_bg"
         android:padding="3dp">
 
@@ -86,8 +89,9 @@
         android:id="@+id/cardProxySettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:marginHorizontal="16dp"
-        android:marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
@@ -104,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:marginBottom="10dp">
+                android:layout_marginBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
@@ -132,7 +136,7 @@
                         android:text="Strategy"
                         android:textSize="11sp"
                         android:textColor="@color/text_secondary"
-                        android:marginBottom="2dp" />
+                        android:layout_marginBottom="2dp" />
                     <Spinner
                         android:id="@+id/spinnerStrategy"
                         android:layout_width="match_parent"
@@ -186,8 +190,9 @@
         android:id="@+id/cardVpnSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:marginHorizontal="16dp"
-        android:marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="12dp"
@@ -201,12 +206,11 @@
             android:orientation="vertical"
             android:padding="14dp">
 
-            <!-- VLESS URL row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:marginBottom="8dp">
+                android:layout_marginBottom="8dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
@@ -234,7 +238,6 @@
                     app:strokeColor="@color/accent" />
             </LinearLayout>
 
-            <!-- Parsed VLESS info -->
             <TextView
                 android:id="@+id/tvVlessInfo"
                 android:layout_width="match_parent"
@@ -243,26 +246,26 @@
                 android:textSize="11sp"
                 android:fontFamily="monospace"
                 android:visibility="gone"
-                android:marginBottom="4dp" />
+                android:layout_marginBottom="6dp" />
 
-            <!-- Help text -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Leave empty to use direct bypass (without server). With VLESS, ALL app traffic routes through your server — YouTube, Telegram, everything."
+                android:text="Leave empty to run direct bypass. With VLESS all traffic (YouTube, Telegram, etc.) routes through your server."
                 android:textSize="11sp"
                 android:textColor="@color/text_secondary"
                 android:lineSpacingExtra="2dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- ── Proxy address / VPN stats ───────────────────────────────────────── -->
+    <!-- ── Proxy address ───────────────────────────────────────────────────── -->
     <TextView
         android:id="@+id/tvProxyAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:marginHorizontal="16dp"
-        android:marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:text="—"
         android:textSize="12sp"
         android:textColor="@color/accent"
@@ -274,12 +277,14 @@
         android:clickable="true"
         android:focusable="true" />
 
+    <!-- ── VPN stats ───────────────────────────────────────────────────────── -->
     <TextView
         android:id="@+id/tvStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:marginHorizontal="16dp"
-        android:marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:text=""
         android:textSize="12sp"
         android:textColor="@color/accent"
@@ -289,12 +294,13 @@
         android:background="@color/surface"
         android:visibility="gone" />
 
-    <!-- ── Start / Stop button ─────────────────────────────────────────────── -->
+    <!-- ── Start / Stop ────────────────────────────────────────────────────── -->
     <Button
         android:id="@+id/btnStartStop"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="10dp"
         android:text="▶  START"
         android:textSize="14sp"
@@ -308,7 +314,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/log_bg"
         app:cardCornerRadius="12dp"
