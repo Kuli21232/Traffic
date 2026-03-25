@@ -45,7 +45,7 @@ object TlsUtils {
                 pos += extLen
             }
             null
-        } catch (_: Exception) {
+        } catch (ignored: Exception) {
             null
         }
     }
@@ -58,7 +58,7 @@ object TlsUtils {
             val nameLen = u16(data, offset - 2)
             if (offset + nameLen > data.size) return null
             String(data, offset, nameLen, Charsets.UTF_8)
-        } catch (_: Exception) {
+        } catch (ignored: Exception) {
             null
         }
     }

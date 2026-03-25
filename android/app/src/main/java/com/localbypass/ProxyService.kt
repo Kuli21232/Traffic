@@ -37,7 +37,7 @@ class ProxyService : Service() {
             try {
                 broadcast(ACTION_STATE, "running")
                 proxy!!.run()
-            } catch (_: Exception) {
+            } catch (ignored: Exception) {
             } finally {
                 broadcast(ACTION_STATE, "stopped")
                 stopSelf()

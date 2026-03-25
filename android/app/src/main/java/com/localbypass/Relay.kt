@@ -21,7 +21,7 @@ object Relay {
                     output.write(buf, 0, n)
                     output.flush()
                 }
-            } catch (_: Exception) {
+            } catch (ignored: Exception) {
             } finally {
                 runCatching { a.close() }
                 runCatching { b.close() }

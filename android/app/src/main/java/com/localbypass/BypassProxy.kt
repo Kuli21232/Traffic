@@ -34,7 +34,7 @@ class BypassProxy(private val cfg: ProxyConfig, private val onLog: (String) -> U
                 connections.incrementAndGet()
                 pool.execute { handle(client) }
             }
-        } catch (_: Exception) {}
+        } catch (ignored: Exception) {}
         log("Proxy stopped")
     }
 
@@ -82,7 +82,7 @@ class BypassProxy(private val cfg: ProxyConfig, private val onLog: (String) -> U
             val buf = ByteArray(CHUNK)
             val n = client.getInputStream().read(buf)
             if (n > 0) buf.copyOf(n) else null
-        } catch (_: Exception) { null }
+        } catch (ignored: Exception) { null }
         if (first.isNullOrEmpty()) { remote.close(); return }
 
         val sni = if (TlsUtils.isClientHello(first)) TlsUtils.extractSni(first) ?: host else host
