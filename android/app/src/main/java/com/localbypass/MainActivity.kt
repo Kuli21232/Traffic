@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.localbypass.databinding.ActivityMainBinding
+import com.localbypass.vless.ServerEntry
+import com.localbypass.vless.SubscriptionClient
 import com.localbypass.vless.VlessConfig
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var b: ActivityMainBinding
     private var running  = false
     private var vpnMode  = false   // false = HTTP Proxy, true = VPN
+    private var servers  = listOf<ServerEntry>()
 
     // ── broadcast receiver ────────────────────────────────────────────────────
     private val receiver = object : BroadcastReceiver() {
@@ -52,6 +55,9 @@ class MainActivity : AppCompatActivity() {
         // Mode toggle
         b.btnModeProxy.setOnClickListener { switchMode(false) }
         b.btnModeVpn.setOnClickListener   { switchMode(true)  }
+
+        // Subscription
+        b.btnLoadSub.setOnClickListener { loadSubscription() }
 
         // VLESS URL parse/validate
         b.btnParseVless.setOnClickListener { validateVless() }
@@ -151,11 +157,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchVpn() {
-        val vlessUrl = b.etVlessUrl.text.toString().trim()
+        // Priority: selected subscription server > manual vless URL > direct
+        val selectedServer = servers.getOrNull(b.spinnerServers.selectedItemPosition)
+        val vlessUrl = when {
+            selectedServer?.connectable == true -> selectedServer.rawUrl
+            else -> b.etVlessUrl.text.toString().trim()
+        }
         val intent = Intent(this, VpnModeService::class.java)
         if (vlessUrl.isNotEmpty()) intent.putExtra(VpnModeService.EXTRA_VLESS_URL, vlessUrl)
         startForegroundService(intent)
-        appendLog("Starting VPN${if (vlessUrl.isNotEmpty()) " (VLESS)" else " (direct)"}…")
+        val label = selectedServer?.name ?: if (vlessUrl.isNotEmpty()) "VLESS" else "direct"
+        appendLog("Starting VPN ($label)…")
+    }
+
+    // ── Subscription loading ──────────────────────────────────────────────────
+    private fun loadSubscription() {
+        val url = b.etSubUrl.text.toString().trim()
+        if (url.isEmpty()) { toast("Paste a subscription URL first"); return }
+
+        b.btnLoadSub.isEnabled = false
+        b.btnLoadSub.text = "…"
+
+        Thread {
+            val result = runCatching { SubscriptionClient.fetch(url) }
+            runOnUiThread {
+                b.btnLoadSub.isEnabled = true
+                b.btnLoadSub.text = "Load"
+                result.onSuccess { list ->
+                    if (list.isEmpty()) {
+                        toast("No servers found in subscription")
+                        return@onSuccess
+                    }
+                    servers = list
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    b.spinnerServers.adapter = adapter
+                    b.layoutServerList.visibility = android.view.View.VISIBLE
+                    val connectable = list.count { it.connectable }
+                    appendLog("Loaded ${list.size} servers ($connectable connectable)")
+                }
+                result.onFailure { e ->
+                    toast("Failed to load: ${e.message}")
+                    appendLog("Subscription error: $e")
+                }
+            }
+        }.start()
     }
 
     // ── VLESS validation ──────────────────────────────────────────────────────
