@@ -8,16 +8,20 @@
     <path
         android:fillColor="@color/accent"
         android:pathData="M54,18 L78,28 L78,54 C78,67 66,76 54,82 C42,76 30,67 30,54 L30,28 Z" />
-    <!-- Lock body -->
+    <!-- Lock body (arc + rectangle via path) -->
     <path
         android:fillColor="@color/bg"
         android:pathData="M45,52 L45,48 C45,43 63,43 63,48 L63,52 Z" />
-    <rect
+    <!-- Lock rectangle (rounded via path) -->
+    <path
         android:fillColor="@color/bg"
-        android:x="42" android:y="52"
-        android:width="24" android:height="18"
-        android:rx="3" />
-    <!-- Keyhole -->
-    <circle android:fillColor="@color/accent" android:cx="54" android:cy="59" android:r="3" />
-    <rect android:fillColor="@color/accent" android:x="52.5" android:y="59" android:width="3" android:height="6" />
+        android:pathData="M45,52 L66,52 L66,70 L42,70 L42,52 Z" />
+    <!-- Keyhole circle (approximated with path arcs) -->
+    <path
+        android:fillColor="@color/accent"
+        android:pathData="M54,56 A3,3 0 1,1 53.999,56 Z" />
+    <!-- Keyhole stem -->
+    <path
+        android:fillColor="@color/accent"
+        android:pathData="M52.5,59 L55.5,59 L55.5,65 L52.5,65 Z" />
 </vector>
