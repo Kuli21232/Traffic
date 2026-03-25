@@ -43,7 +43,7 @@ jobs:
       # ── build ──────────────────────────────────────────────────────────────
       - name: Build Debug APK
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       # ── upload artifact ────────────────────────────────────────────────────
       - name: Upload APK

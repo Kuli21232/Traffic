@@ -78,7 +78,11 @@ class BypassProxy(private val cfg: ProxyConfig, private val onLog: (String) -> U
         client.getOutputStream().flush()
 
         // First chunk = TLS ClientHello (or first app data)
-        val first = try { client.getInputStream().readNBytes(CHUNK) } catch (_: Exception) { null }
+        val first = try {
+            val buf = ByteArray(CHUNK)
+            val n = client.getInputStream().read(buf)
+            if (n > 0) buf.copyOf(n) else null
+        } catch (_: Exception) { null }
         if (first.isNullOrEmpty()) { remote.close(); return }
 
         val sni = if (TlsUtils.isClientHello(first)) TlsUtils.extractSni(first) ?: host else host
