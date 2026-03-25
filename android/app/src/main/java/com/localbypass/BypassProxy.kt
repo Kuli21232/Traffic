@@ -83,7 +83,7 @@ class BypassProxy(private val cfg: ProxyConfig, private val onLog: (String) -> U
             val n = client.getInputStream().read(buf)
             if (n > 0) buf.copyOf(n) else null
         } catch (ignored: Exception) { null }
-        if (first.isNullOrEmpty()) { remote.close(); return }
+        if (first == null || first.isEmpty()) { remote.close(); return }
 
         val sni = if (TlsUtils.isClientHello(first)) TlsUtils.extractSni(first) ?: host else host
         log("CONNECT $sni:$port  strategy=${cfg.strategy}")
